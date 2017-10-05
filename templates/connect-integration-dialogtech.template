@@ -1,0 +1,99 @@
+---
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Dialogtech Integration for Amazon Connect Quick Start
+Resources:
+  LambdaExecutionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+        - Effect: Allow
+          Principal:
+            Service:
+            - lambda.amazonaws.com
+          Action:
+          - sts:AssumeRole
+      Policies:
+      - PolicyName: lambdalogtocloudwatch
+        PolicyDocument:
+          Version: '2012-10-17'
+          Statement:
+          - Effect: Allow
+            Action:
+            - logs:CreateLogGroup
+            - logs:CreateLogStream
+            - logs:PutLogEvents
+            Resource: arn:aws:logs:*:*:*
+  DialogTechLambdaKey:
+    Type: AWS::KMS::Key
+    Properties:
+      Description: DialogTechKey
+      Enabled: 'True'
+      EnableKeyRotation: 'False'
+      KeyPolicy:
+        Version: '2012-10-17'
+        Statement:
+        - Sid: Enable IAM User Permissions
+          Effect: Allow
+          Principal:
+            AWS:
+            - Fn::Join:
+              - ''
+              - - 'arn:aws:iam::'
+                - Ref: AWS::AccountId
+                - ":root"
+          Action: kms:*
+          Resource: "*"
+        - Sid: Allow use of the key
+          Effect: Allow
+          Principal:
+            AWS:
+            - Fn::GetAtt: LambdaExecutionRole.Arn
+          Action:
+          - kms:Encrypt
+          - kms:Decrypt
+          - kms:ReEncrypt*
+          - kms:GenerateDataKey*
+          - kms:DescribeKey
+          Resource: "*"
+        - Sid: Allow attachment of persistent resources
+          Effect: Allow
+          Principal:
+            AWS:
+            - Fn::GetAtt:
+              - LambdaExecutionRole
+              - Arn
+          Action:
+          - kms:CreateGrant
+          - kms:ListGrants
+          - kms:RevokeGrant
+          Resource: "*"
+          Condition:
+            Bool:
+              kms:GrantIsForAWSResource: 'true'
+  DialogtechKeyAlias:
+    Type: AWS::KMS::Alias
+    Properties:
+      AliasName: alias/DialogTechKey
+      TargetKeyId:
+        Fn::GetAtt: DialogTechLambdaKey.Arn
+  DialogtechLambda:
+    Type: AWS::Lambda::Function
+    Properties:
+      Handler: index.handler
+      Role:
+        Fn::GetAtt: LambdaExecutionRole.Arn
+      KmsKeyArn:
+        Fn::GetAtt: DialogTechLambdaKey.Arn
+      Code:
+        S3Bucket: quickstart-reference
+        S3Key:
+          Fn::Sub: connect/integration/pindrop/latest/functions/packages/pindrop-integration-test/pindrop-integration-test.zip
+      Runtime: nodejs6.10
+      Timeout: '10'
+      Environment:
+        Variables:
+          access_key: ''
+          secret_access_key: ''
+...
