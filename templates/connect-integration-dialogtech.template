@@ -103,6 +103,16 @@ Resources:
             Ref: DKey
           secret_access_key:
             Ref: DSecret
+  DialogtechLambdaInvokePermission:
+    Type: AWS::Lambda::Permission
+    DependsOn: DialogtechLambda
+    Properties:
+      FunctionName:
+        Ref: DialogtechLambda
+      Action: lambda:InvokeFunction
+      Principal: connect.amazonaws.com
+      SourceAccount:
+        Ref: AWS::AccountId
 Outputs:
   LambdaExecutionRole:
     Description: Lambda Function Execution Role
