@@ -86,7 +86,7 @@ Resources:
   DialogtechLambda:
     Type: AWS::Lambda::Function
     Properties:
-      Handler: index.handler
+      Handler: dialogtech.handler
       Role:
         Fn::GetAtt: LambdaExecutionRole.Arn
       KmsKeyArn:
