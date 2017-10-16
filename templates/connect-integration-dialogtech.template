@@ -92,7 +92,7 @@ Resources:
       KmsKeyArn:
         Fn::GetAtt: DialogTechLambdaKey.Arn
       Code:
-        S3Bucket: quickstart-reference
+        S3Bucket: quickstart-reference-jayyeras
         S3Key:
           Fn::Sub: connect/integration/dialogtech/latest/functions/packages/dialogtech-integration/dialogtech-integration.zip
       Runtime: nodejs6.10
@@ -103,4 +103,17 @@ Resources:
             Ref: DKey
           secret_access_key:
             Ref: DSecret
+Outputs:
+  LambdaExecutionRole:
+    Description: Lambda Function Execution Role
+    Value:
+      Fn::GetAtt: LambdaExecutionRole.Arn
+  DialogtechLambda:
+    Description: Lambda Function for Dialogtech Integration
+    Value:
+      Fn::GetAtt: DialogtechLambda.Arn
+  DialogTechLambdaKey:
+    Description: KMS Key for Dialogtech Integration
+    Value:
+      Fn::GetAtt: DialogTechLambdaKey.Arn
 ...
