@@ -61,9 +61,7 @@ Resources:
           Effect: Allow
           Principal:
             AWS:
-            - Fn::GetAtt:
-              - LambdaExecutionRole
-              - Arn
+            - Fn::GetAtt: LambdaExecutionRole.Arn
           Action:
           - kms:CreateGrant
           - kms:ListGrants
@@ -89,7 +87,7 @@ Resources:
       Code:
         S3Bucket: quickstart-reference
         S3Key:
-          Fn::Sub: connect/integration/pindrop/latest/functions/packages/pindrop-integration-test/pindrop-integration-test.zip
+          Fn::Sub: connect/integration/dialogtech/latest/functions/packages/dialogtech-integration/dialogtech-integration.zip
       Runtime: nodejs6.10
       Timeout: '10'
       Environment:
