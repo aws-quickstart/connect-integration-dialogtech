@@ -92,7 +92,7 @@ Resources:
       KmsKeyArn:
         Fn::GetAtt: DialogTechLambdaKey.Arn
       Code:
-        S3Bucket: quickstart-reference-jayyeras
+        S3Bucket: quickstart-reference
         S3Key:
           Fn::Sub: connect/integration/dialogtech/latest/functions/packages/dialogtech-integration/dialogtech-integration.zip
       Runtime: nodejs6.10
