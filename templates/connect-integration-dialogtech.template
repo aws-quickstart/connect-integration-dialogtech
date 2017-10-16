@@ -1,6 +1,13 @@
 ---
 AWSTemplateFormatVersion: '2010-09-09'
 Description: Dialogtech Integration for Amazon Connect Quick Start
+Parameters:
+  DKey:
+    Default: Visit https://secure.dialogtech.com/key-manager
+    Type: String
+  DSecret:
+    Default: Visit https://secure.dialogtech.com/key-manager
+    Type: String
 Resources:
   LambdaExecutionRole:
     Type: AWS::IAM::Role
@@ -92,6 +99,8 @@ Resources:
       Timeout: '10'
       Environment:
         Variables:
-          access_key: ''
-          secret_access_key: ''
+          access_key:
+            Ref: DKey
+          secret_access_key:
+            Ref: DSecret
 ...
