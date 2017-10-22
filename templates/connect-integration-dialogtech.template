@@ -34,6 +34,7 @@ Resources:
             Resource: arn:aws:logs:*:*:*
   DialogTechLambdaKey:
     Type: AWS::KMS::Key
+    DependsOn: LambdaExecutionRole
     Properties:
       Description: DialogTechKey
       Enabled: 'True'
@@ -49,9 +50,9 @@ Resources:
               - ''
               - - 'arn:aws:iam::'
                 - Ref: AWS::AccountId
-                - ":root"
+                - :root
           Action: kms:*
-          Resource: "*"
+          Resource: '*'
         - Sid: Allow use of the key
           Effect: Allow
           Principal:
@@ -63,7 +64,7 @@ Resources:
           - kms:ReEncrypt*
           - kms:GenerateDataKey*
           - kms:DescribeKey
-          Resource: "*"
+          Resource: '*'
         - Sid: Allow attachment of persistent resources
           Effect: Allow
           Principal:
@@ -73,18 +74,22 @@ Resources:
           - kms:CreateGrant
           - kms:ListGrants
           - kms:RevokeGrant
-          Resource: "*"
+          Resource: '*'
           Condition:
             Bool:
               kms:GrantIsForAWSResource: 'true'
   DialogtechKeyAlias:
     Type: AWS::KMS::Alias
+    DependsOn: DialogTechLambdaKey
     Properties:
       AliasName: alias/DialogTechKey
       TargetKeyId:
         Fn::GetAtt: DialogTechLambdaKey.Arn
   DialogtechLambda:
     Type: AWS::Lambda::Function
+    DependsOn:
+    - DialogTechLambdaKey
+    - DialogtechKeyAlias
     Properties:
       Handler: dialogtech.handler
       Role:
