@@ -32,6 +32,30 @@ Resources:
             - logs:CreateLogStream
             - logs:PutLogEvents
             Resource: arn:aws:logs:*:*:*
+  DialogtechTestLambda:
+    Type: AWS::Lambda::Function
+    Properties:
+      Handler: dialogtech-test.handler
+      Role:
+        Fn::GetAtt: LambdaExecutionRole.Arn
+      Code:
+        S3Bucket: quickstart-reference
+        S3Key:
+          Fn::Sub: connect/integration/dialogtech/latest/functions/packages/dialogtech-integration/dialogtech-integration-test.zip
+      Runtime: nodejs6.10
+      Timeout: '10'
+  IntegrationTest:
+    Type: Custom::IntegrationTest
+    Version: '1.0'
+    Properties:
+      ServiceToken:
+        Fn::GetAtt: DialogtechTestLambda.Arn
+      accessKey:
+        Ref: DKey
+      secretAccessKey:
+        Ref: DSecret
+      customerNumber:
+        8887776666
   DialogtechLambda:
     Type: AWS::Lambda::Function
     Properties:
