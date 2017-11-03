@@ -3,11 +3,37 @@ AWSTemplateFormatVersion: '2010-09-09'
 Description: Dialogtech Integration for Amazon Connect Quick Start (qs-1nr3h4h6r)
 Parameters:
   DKey:
-    Default: Visit https://secure.dialogtech.com/key-manager
+    Default: ''
+    Description: Visit https://secure.dialogtech.com/key-manager
     Type: String
   DSecret:
-    Default: Visit https://secure.dialogtech.com/key-manager
+    Default: ''
+    Description: Visit https://secure.dialogtech.com/key-manager
     Type: String
+Rules:
+  RegionSupport:
+    Assertions:
+    - Assert:
+        Fn::Equals:
+        - Ref: AWS::Region
+        - us-east-1
+      AssertDescription: Region must be US East (N. Virginia) - us-east-1
+  DKeyParameterDefaults:
+    Assertions:
+    - Assert:
+        Fn::Not:
+        - Fn::Equals:
+          - Ref: DKey
+          - ''
+      AssertDescription: Amazon Connect Dialogtech Integration key cannot be empty
+  DSecretParameterDefaults:
+    Assertions:
+    - Assert:
+        Fn::Not:
+        - Fn::Equals:
+          - Ref: DSecret
+          - ''
+      AssertDescription: Amazon Connect Dialogtech Integration secret cannot be empty
 Resources:
   LambdaExecutionRole:
     Type: AWS::IAM::Role
@@ -54,8 +80,7 @@ Resources:
         Ref: DKey
       secretAccessKey:
         Ref: DSecret
-      customerNumber:
-        8887776666
+      customerNumber: 8887776666
   DialogtechLambda:
     Type: AWS::Lambda::Function
     Properties:
