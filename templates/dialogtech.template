@@ -1,0 +1,72 @@
+---
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Dialogtech Integration for Amazon Connect Quick Start
+Parameters:
+  DKey:
+    Default: Visit https://secure.dialogtech.com/key-manager
+    Type: String
+  DSecret:
+    Default: Visit https://secure.dialogtech.com/key-manager
+    Type: String
+Resources:
+  LambdaExecutionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+        - Effect: Allow
+          Principal:
+            Service:
+            - lambda.amazonaws.com
+          Action:
+          - sts:AssumeRole
+      Policies:
+      - PolicyName: lambdalogtocloudwatch
+        PolicyDocument:
+          Version: '2012-10-17'
+          Statement:
+          - Effect: Allow
+            Action:
+            - logs:CreateLogGroup
+            - logs:CreateLogStream
+            - logs:PutLogEvents
+            Resource: arn:aws:logs:*:*:*
+  DialogtechLambda:
+    Type: AWS::Lambda::Function
+    Properties:
+      Handler: dialogtech.handler
+      Role:
+        Fn::GetAtt: LambdaExecutionRole.Arn
+      Code:
+        S3Bucket: quickstart-reference
+        S3Key:
+          Fn::Sub: connect/integration/dialogtech/latest/functions/packages/dialogtech-integration/dialogtech-integration.zip
+      Runtime: nodejs6.10
+      Timeout: '10'
+      Environment:
+        Variables:
+          access_key:
+            Ref: DKey
+          secret_access_key:
+            Ref: DSecret
+  DialogtechLambdaInvokePermission:
+    Type: AWS::Lambda::Permission
+    DependsOn: DialogtechLambda
+    Properties:
+      FunctionName:
+        Ref: DialogtechLambda
+      Action: lambda:InvokeFunction
+      Principal: connect.amazonaws.com
+      SourceAccount:
+        Ref: AWS::AccountId
+Outputs:
+  LambdaExecutionRole:
+    Description: Lambda Function Execution Role
+    Value:
+      Fn::GetAtt: LambdaExecutionRole.Arn
+  DialogtechLambda:
+    Description: Lambda Function for Dialogtech Integration
+    Value:
+      Fn::GetAtt: DialogtechLambda.Arn
+...
