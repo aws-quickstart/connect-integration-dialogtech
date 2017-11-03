@@ -1,27 +1,32 @@
 ---
 AWSTemplateFormatVersion: '2010-09-09'
-Description: Dialogtech Integration for Amazon Connect Quick Start (qs-1nr3h4h6r)
+Description: DialogTech Integration for Amazon Connect Quick Start (qs-1nr3h4h6r)
 Metadata:
   AWS::CloudFormation::Interface:
     ParameterGroups:
     - Label:
-        default: Amazon Connect Dialogtech Integration
+        default: Amazon Connect DialogTech Integration
       Parameters:
       - DKey
       - DSecret
     ParameterLabels:
       DKey:
-        default: Dialogtech Key
+        default: DialogTech Key
+        Description: In order to access the DialogTech API, users will first need
+          to generate API keys on the Access Key Manager. Once generated, these keys
+          can be used in a variety of ways to interact with and retrieve data from
+          the DialogTech platform. Please visit https://secure.dialogtech.com/key-manager
+          to generate a key and secret before launching this template.
       DSecret:
-        default: Dialogtech Secret
+        default: DialogTech Secret
+        Description: Please provide the generated API secret obtained from the DialogTech
+          Access Key Manager as detailed in the step above.
 Parameters:
   DKey:
     Default: ''
-    Description: Visit https://secure.dialogtech.com/key-manager
     Type: String
   DSecret:
     Default: ''
-    Description: Visit https://secure.dialogtech.com/key-manager
     Type: String
 Rules:
   RegionSupport:
@@ -38,7 +43,7 @@ Rules:
         - Fn::Equals:
           - Ref: DKey
           - ''
-      AssertDescription: Amazon Connect Dialogtech Integration key cannot be empty
+      AssertDescription: Amazon Connect DialogTech Integration key cannot be empty
   DSecretParameterDefaults:
     Assertions:
     - Assert:
@@ -46,7 +51,7 @@ Rules:
         - Fn::Equals:
           - Ref: DSecret
           - ''
-      AssertDescription: Amazon Connect Dialogtech Integration secret cannot be empty
+      AssertDescription: Amazon Connect DialogTech Integration secret cannot be empty
 Resources:
   LambdaExecutionRole:
     Type: AWS::IAM::Role
