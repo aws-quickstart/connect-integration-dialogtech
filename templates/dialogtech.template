@@ -12,21 +12,19 @@ Metadata:
     ParameterLabels:
       DKey:
         default: DialogTech Key
-        Description: In order to access the DialogTech API, users will first need
-          to generate API keys on the Access Key Manager. Once generated, these keys
-          can be used in a variety of ways to interact with and retrieve data from
-          the DialogTech platform. Please visit https://secure.dialogtech.com/key-manager
-          to generate a key and secret before launching this template.
       DSecret:
         default: DialogTech Secret
-        Description: Please provide the generated API secret obtained from the DialogTech
-          Access Key Manager as detailed in the step above.
 Parameters:
   DKey:
     Default: ''
+    Description: In order to access the DialogTech API, users will first need to generate
+      API keys. Please visit https://secure.dialogtech.com/key-manager to generate
+      a key and secret before launching this template.
     Type: String
   DSecret:
     Default: ''
+    Description: Please provide the generated API secret obtained from the DialogTech
+      Access Key Manager as detailed in the step above.
     Type: String
 Rules:
   RegionSupport:
