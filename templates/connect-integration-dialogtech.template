@@ -1,6 +1,6 @@
 ---
 AWSTemplateFormatVersion: '2010-09-09'
-Description: Dialogtech Integration for Amazon Connect Quick Start (qs-1nr3h4h6r)
+Description: Dialogtech Integration for Amazon Connect Quick Start
 Parameters:
   DKey:
     Default: Visit https://secure.dialogtech.com/key-manager
@@ -41,7 +41,7 @@ Resources:
       Code:
         S3Bucket: quickstart-reference
         S3Key:
-          Fn::Sub: connect/integration/dialogtech/latest/functions/packages/dialogtech-integration-test/dialogtech-integration-test.zip
+          Fn::Sub: connect/integration/dialogtech/latest/functions/packages/dialogtech-integration/dialogtech-integration-test.zip
       Runtime: nodejs6.10
       Timeout: '10'
   IntegrationTest:
