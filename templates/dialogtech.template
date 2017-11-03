@@ -1,6 +1,19 @@
 ---
 AWSTemplateFormatVersion: '2010-09-09'
 Description: Dialogtech Integration for Amazon Connect Quick Start (qs-1nr3h4h6r)
+Metadata:
+  AWS::CloudFormation::Interface:
+    ParameterGroups:
+    - Label:
+        default: Amazon Connect Dialogtech Integration
+      Parameters:
+      - DKey
+      - DSecret
+    ParameterLabels:
+      DKey:
+        default: Dialogtech Key
+      DSecret:
+        default: Dialogtech Secret
 Parameters:
   DKey:
     Default: ''
