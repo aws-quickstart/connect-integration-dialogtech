@@ -81,9 +81,8 @@ Resources:
       Role:
         Fn::GetAtt: LambdaExecutionRole.Arn
       Code:
-        S3Bucket: quickstart-reference
-        S3Key:
-          Fn::Sub: connect/integration/dialogtech/latest/functions/packages/dialogtech-integration-test/dialogtech-integration-test.zip
+        S3Bucket: aws-quickstart
+        S3Key: connect-integration-dialogtech/functions/packages/dialogtech-integration-test/dialogtech-integration-test.zip
       Runtime: nodejs6.10
       Timeout: '10'
   IntegrationTest:
@@ -104,9 +103,8 @@ Resources:
       Role:
         Fn::GetAtt: LambdaExecutionRole.Arn
       Code:
-        S3Bucket: quickstart-reference
-        S3Key:
-          Fn::Sub: connect/integration/dialogtech/latest/functions/packages/dialogtech-integration/dialogtech-integration.zip
+        S3Bucket: aws-quickstart
+        S3Key: connect-integration-dialogtech/functions/packages/dialogtech-integration/dialogtech-integration.zip
       Runtime: nodejs6.10
       Timeout: '10'
       Environment:
