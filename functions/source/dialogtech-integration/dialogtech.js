@@ -15,7 +15,7 @@ exports.handler = (event, context, callback) => {
   http.get(dialogTechUrl, function (result) {
     console.log('Success, with: ' + result.statusCode);
     result.on('data', function (chunk) {
-      var parsedBody = JSON.parse(chunk)
+      var parsedBody = JSON.parse(chunk);
       function buildResponse(parsedBody) {
         if (parsedBody.sid !== undefined) {
           console.log('BODY Content: ' + parsedBody.sid);
@@ -52,6 +52,28 @@ exports.handler = (event, context, callback) => {
             ad_position: parsedBody.Ad_Position,
             product_target_id: parsedBody.Product_Target_ID,
             ad_type: parsedBody.Ad_Type,
+            st_rank: parsedBody.st_rank,
+            st_referer: parsedBody.st_referer,
+            st_baseuri: parsedBody.st_baseuri,
+            st_lastbaseuri: parsedBody.st_lastbaseuri,
+            st_lastbaseuri_title: parsedBody.st_lastbaseuri_title,
+            st_activity_keyword: parsedBody.st_activity_keyword,
+            st_displayed_timestamp: parsedBody.st_displayed_timestamp,
+            st_ip_address: parsedBody.st_ip_address,
+            st_document_title: parsedBody.st_document_title,
+            st_browser: parsedBody.st_browser,
+            st_os: parsedBody.st_os,
+            st_ibp_custom: parsedBody.st_ibp_custom,
+            st_ibp_unique_id: parsedBody.st_ibp_unique_id,
+            st_pid: parsedBody.st_pid,
+            st_domain_set_id: parsedBody.st_domain_set_id,
+            st_location_name: parsedBody.st_location_name,
+            st_sourceguard: parsedBody.st_sourceguard,
+            st_campaign: parsedBody.st_campaign,
+            st_platform: parsedBody.st_platform,
+            st_content: parsedBody.st_content,
+            st_term: parsedBody.st_term,
+            st_medium: parsedBody.st_medium,
             lambdaResult:'Success'
           };
         } else {
