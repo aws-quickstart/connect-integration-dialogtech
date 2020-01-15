@@ -83,7 +83,7 @@ Resources:
       Code:
         S3Bucket: aws-quickstart
         S3Key: connect-integration-dialogtech/functions/packages/dialogtech-integration-test/dialogtech-integration-test.zip
-      Runtime: nodejs6.10
+      Runtime: nodejs10.x
       Timeout: '10'
   IntegrationTest:
     Type: Custom::IntegrationTest
@@ -105,7 +105,7 @@ Resources:
       Code:
         S3Bucket: aws-quickstart
         S3Key: connect-integration-dialogtech/functions/packages/dialogtech-integration/dialogtech-integration.zip
-      Runtime: nodejs6.10
+      Runtime: nodejs10.x
       Timeout: '10'
       Environment:
         Variables:
