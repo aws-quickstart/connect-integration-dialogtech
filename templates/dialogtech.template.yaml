@@ -106,7 +106,7 @@ Resources:
         S3Bucket: aws-quickstart
         S3Key: connect-integration-dialogtech/functions/packages/dialogtech-integration/dialogtech-integration.zip
       Runtime: nodejs6.10
-      Timeout: '10'
+      Timeout: 10
       Environment:
         Variables:
           access_key:
@@ -115,7 +115,6 @@ Resources:
             Ref: DSecret
   DialogtechLambdaInvokePermission:
     Type: AWS::Lambda::Permission
-    DependsOn: DialogtechLambda
     Properties:
       FunctionName:
         Ref: DialogtechLambda
